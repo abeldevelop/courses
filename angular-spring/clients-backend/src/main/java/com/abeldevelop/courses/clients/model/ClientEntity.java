@@ -8,13 +8,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -40,5 +43,11 @@ public class ClientEntity implements Serializable {
 	
 	@Column(name = "create_at")
 	private LocalDate createAt;
+	
+	
+	@PrePersist
+	public void prePersist() {
+		this.createAt = LocalDate.now();
+	}
 	
 }
