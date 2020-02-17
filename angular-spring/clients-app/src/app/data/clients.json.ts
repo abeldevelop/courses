@@ -1,4 +1,4 @@
-import { Client } from './client';
+import { Client } from '../domain/client';
 
 export const CLIENTS:Client[] = [
   {id: 1, name: 'Name 1', surname: 'Surname 1', email: 'email1@mail.com', createAt: '2020-02-17'},
