@@ -1,8 +1,48 @@
-CREATE TABLE courses_clients_db.clients (
-	id bigint not null auto_increment, 
-	create_at date, 
-	email varchar(255), 
-	name varchar(255), 
-	surname varchar(255), 
-	primary key (id)
+CREATE TABLE clients (
+	id BIGINT NOT NULL AUTO_INCREMENT, 
+	name VARCHAR(255) NOT NULL, 
+	surname VARCHAR(255) NOT NULL, 
+	email VARCHAR(255) NOT NULL, 
+	create_at DATE NOT NULL, 
+	profile_image VARCHAR(255), 
+	region_id BIGINT, 
+	PRIMARY KEY (id)
 ) engine=InnoDB;
+
+CREATE TABLE regions (
+	id BIGINT NOT NULL AUTO_INCREMENT, 
+	name VARCHAR(255) NOT NULL, 
+	PRIMARY KEY (id)
+) engine=InnoDB;
+
+CREATE TABLE roles (
+	id BIGINT NOT NULL AUTO_INCREMENT, 
+	name VARCHAR(20) NOT NULL, 
+	PRIMARY KEY (id)
+) engine=InnoDB;
+
+CREATE TABLE users (
+	id BIGINT NOT NULL AUTO_INCREMENT, 
+	enabled BIT, 
+	password VARCHAR(60) NOT NULL, 
+	username VARCHAR(20) NOT NULL, 
+	name VARCHAR(255) NOT NULL, 
+	surname VARCHAR(255) NOT NULL, 
+	email VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id)
+) engine=InnoDB;
+
+CREATE TABLE users_roles (
+	user_id bigint NOT NULL, 
+	role_id bigint NOT NULL
+) engine=InnoDB;
+
+ALTER TABLE clients ADD CONSTRAINT UK_CLIENTS_EMAIL UNIQUE (email);
+ALTER TABLE clients ADD CONSTRAINT FK_CLIENTS_REGION_ID FOREIGN KEY (region_id) REFERENCES regions (id);
+
+ALTER TABLE roles ADD CONSTRAINT UK_ROLES_NAME UNIQUE (name);
+ALTER TABLE users ADD CONSTRAINT UK_USERS_USERNAME UNIQUE (username);
+ALTER TABLE users_roles ADD CONSTRAINT UK_USERS_ROLES_USER_ID_AND_ROLE_ID UNIQUE (user_id, role_id);
+
+ALTER TABLE users_roles ADD CONSTRAINT FK_USERS_ROLES_ROLE_ID FOREIGN KEY (role_id) REFERENCES roles (id);
+ALTER TABLE users_roles ADD CONSTRAINT FK_USERS_ROLES_USER_ID FOREIGN KEY (user_id) REFERENCES users (id);

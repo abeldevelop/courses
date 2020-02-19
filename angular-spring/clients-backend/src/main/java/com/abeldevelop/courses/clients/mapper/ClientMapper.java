@@ -5,9 +5,14 @@ import org.springframework.stereotype.Component;
 import com.abeldevelop.courses.clients.dto.ClientResource;
 import com.abeldevelop.courses.clients.model.ClientEntity;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Component
 public class ClientMapper {
 
+	private final RegionMapper regionMapper;
+	
 	public ClientResource mapEntityToResource(ClientEntity clientEntity) {
 		return ClientResource.builder()
 				.id(clientEntity.getId())
@@ -15,6 +20,8 @@ public class ClientMapper {
 				.surname(clientEntity.getSurname())
 				.email(clientEntity.getEmail())
 				.createAt(clientEntity.getCreateAt())
+				.profileImage(clientEntity.getProfileImage())
+				.region(regionMapper.mapEntityToResource(clientEntity.getRegion()))
 				.build();
 	}
 	
@@ -32,6 +39,7 @@ public class ClientMapper {
 		clientEntity.setName(clientResource.getName());
 		clientEntity.setSurname(clientResource.getSurname());
 		clientEntity.setEmail(clientResource.getEmail());
+		clientEntity.setCreateAt(clientResource.getCreateAt());
 		return clientEntity;
 	}
 }

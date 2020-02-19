@@ -5,11 +5,15 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,22 +36,28 @@ public class ClientEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
+	@NotNull
 	private String name;
 	
 	@Column(name = "surname")
+	@NotNull
 	private String surname;
 	
-	@Column(name = "email")
+	@Column(name = "email", nullable = false, unique = true)
+	@NotNull
+	@Email
 	private String email;
 	
 	@Column(name = "create_at")
+	@NotNull
 	private LocalDate createAt;
-	
-	
-	@PrePersist
-	public void prePersist() {
-		this.createAt = LocalDate.now();
-	}
+
+	@Column(name = "profile_image")
+	private String profileImage;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "region_id")
+	private RegionEntity region;
 	
 }

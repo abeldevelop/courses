@@ -1,0 +1,81 @@
+<div class="row alert alert-danger" *ngIf="errorMessage">
+  {{errorMessage}}
+</div>
+
+<div class="card bg-dark text-white mt-3">
+  <div class="card-header">{{title}}</div>
+  <div class="card-body">
+
+    <form (ngSubmit)="sendForm()">
+      <!-- NAME -->
+      <div class="form-group row">
+        <label class="col-form-label col-sm-2" for="name">Nombre</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="client.name" name="name" required minlength="4" #name="ngModel">
+          <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+            <div *ngIf="name.errors.required">
+              Nombre es obligatorio
+            </div>
+            <div *ngIf="name.errors.minlength">
+              Nombre debe tener al menos 4 caracteres
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SURNAME -->
+      <div class="form-group row">
+        <label class="col-form-label col-sm-2" for="surname">Apellido</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="client.surname" name="surname" required #surname="ngModel">
+          <div class="alert alert-danger" *ngIf="surname.invalid && (surname.dirty || surname.touched)">
+            <div *ngIf="surname.errors.required">
+              Apellido es obligatorio
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- EMAIL -->
+      <div class="form-group row">
+        <label class="col-form-label col-sm-2" for="email">Email</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" [(ngModel)]="client.email" name="email" required email #email="ngModel">
+          <div class="alert alert-danger" *ngIf="surname.invalid && (email.dirty || email.touched)">
+            <div *ngIf="email.errors.required">
+              Email es obligatorio
+            </div>
+            <div *ngIf="email.errors.email">
+              El formato del email no es correcto
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CREATE AT -->
+      <div class="form-group row">
+        <label class="col-form-label col-sm-2" for="surname">Fecha Creacion</label>
+        <div class="col-sm-6">
+          <input type="date" class="form-control" [(ngModel)]="client.createAt" name="createAt" #createAt="ngModel">
+        </div>
+      </div>
+
+      <!-- REGION -->
+      <div class="form-group row">
+        <label class="col-form-label col-sm-2" for="region">Region</label>
+        <div class="col-sm-6">
+          <select [compareWith]="compareRegion" type="date" class="form-control" [(ngModel)]="client.region" name="region">
+            <option [ngValue]="undefined">--Seleccionar region--</option>
+            <option [ngValue]="region" *ngFor="let region of regions">{{region.name}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SEND FORM BUTTON-->
+      <div class="form-group row">
+        <div class="col-sm-6">
+          <button role="button" class="btn btn-primary">{{formButtonText}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

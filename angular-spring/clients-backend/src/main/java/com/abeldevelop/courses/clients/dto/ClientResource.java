@@ -22,5 +22,7 @@ public class ClientResource {
 	private String surname;
 	private String email;
 	private LocalDate createAt;
+	private String profileImage;
+	private RegionResource region;
 	
 }
